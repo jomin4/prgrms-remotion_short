@@ -1,0 +1,70 @@
+{
+  "composition": "Explainer",
+  "meta": {
+    "youtubeTitle": "git reset --soft / --mixed / --hard 차이 30초 정리 #shorts",
+    "youtubeDescription": "개발자가 은근히 헷갈리는 git reset 3가지 옵션 차이를 30초로 정리했습니다.\n\n- --soft: HEAD만 이동, 변경은 staged로 유지\n- --mixed(기본): 스테이징까지 해제, 변경은 그대로\n- --hard: 작업 내용까지 완전 삭제 (주의!)\n\n#git #개발자 #코딩 #프로그래밍 #shorts",
+    "tags": ["git", "개발", "코딩", "프로그래밍", "개발자", "shorts"]
+  },
+  "scenes": [
+    {
+      "type": "title",
+      "durationInFrames": 90,
+      "badge": "GIT",
+      "title": "git reset\n3가지, 제대로\n아세요?",
+      "subtitle": "--soft · --mixed · --hard"
+    },
+    {
+      "type": "bullet",
+      "durationInFrames": 130,
+      "heading": "먼저, reset이 하는 일",
+      "bullets": [
+        { "icon": "🎯", "text": "HEAD(브랜치 포인터)를 특정 커밋으로 되돌린다" },
+        { "icon": "⚙️", "text": "옵션은 '어디까지' 되돌릴지를 정한다" },
+        { "icon": "🗂️", "text": "대상: Staging(Index)과 Working Directory" }
+      ]
+    },
+    {
+      "type": "compare",
+      "durationInFrames": 210,
+      "heading": "옵션별로 되돌리는 범위",
+      "items": [
+        { "label": "--soft", "desc": "HEAD만 이동. 변경은 'staged' 상태로 그대로 남음", "color": "green" },
+        { "label": "--mixed  (기본값)", "desc": "스테이징까지 해제. 변경은 'unstaged'로 유지", "color": "orange" },
+        { "label": "--hard", "desc": "작업 내용까지 전부 삭제. 되돌릴 수 없음 (주의!)", "color": "red" }
+      ]
+    },
+    {
+      "type": "code",
+      "durationInFrames": 190,
+      "heading": "실전 예시",
+      "lines": [
+        "// 마지막 커밋만 취소, 코드는 그대로 커밋 대기",
+        "git reset --soft HEAD~1",
+        "",
+        "// 커밋과 스테이징 취소, 수정 내용은 유지",
+        "git reset --mixed HEAD~1",
+        "",
+        "// 전부 날리기 (복구 불가)",
+        "git reset --hard HEAD~1"
+      ],
+      "caption": "헷갈리면 --soft가 가장 안전합니다"
+    },
+    {
+      "type": "bullet",
+      "durationInFrames": 150,
+      "heading": "한 줄 요약",
+      "bullets": [
+        { "icon": "🟢", "text": "커밋만 다시 묶고 싶다 → --soft", "accent": "#5E7A3A" },
+        { "icon": "🟠", "text": "스테이징도 풀고 싶다 → --mixed", "accent": "#8A5A2B" },
+        { "icon": "🔴", "text": "진짜 다 지우고 싶다 → --hard", "accent": "#B0472B" }
+      ]
+    },
+    {
+      "type": "outro",
+      "durationInFrames": 100,
+      "title": "오늘도 한 뼘 성장",
+      "cta": "구독하고 다음 편 보기",
+      "handle": "매일 30초 개발 지식"
+    }
+  ]
+}

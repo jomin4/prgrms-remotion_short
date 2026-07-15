@@ -1,0 +1,110 @@
+{
+  "composition": "CodeAnalysis",
+  "meta": {
+    "youtubeTitle": "자바 변수 대입, 값일까 참조일까? (스택·힙 시각화) #shorts",
+    "youtubeDescription": "자바에서 변수에 값을 대입할 때 스택과 힙에서 벌어지는 일을 한 줄씩 시각화했습니다.\n\n- 원시값(int): 값을 복사 → 서로 독립\n- 참조(배열/객체): 주소를 복사 → 같은 객체 공유(aliasing)\n\n표준 메모리 다이어그램(Stack | Heap, 박스-화살표) 기반.\n\n#자바 #java #스택 #힙 #메모리 #참조 #개발자 #cs #shorts",
+    "tags": ["자바", "java", "스택", "힙", "메모리", "참조", "aliasing", "개발자", "shorts"]
+  },
+  "title": "변수 대입: 값일까, 참조일까?",
+  "filename": "Assignment.java",
+  "code": [
+    "int a = 5;",
+    "int b = a;",
+    "b = 9;",
+    "int[] o = {1};",
+    "int[] p = o;",
+    "p[0] = 99;"
+  ],
+  "steps": [
+    {
+      "durationInFrames": 100,
+      "focus": [1],
+      "caption": "int a = 5 — 스택에 값 5를 저장",
+      "viz": { "type": "memory", "stack": [{ "name": "a", "value": "5", "changed": true }], "heap": [] }
+    },
+    {
+      "durationInFrames": 115,
+      "focus": [2],
+      "caption": "int b = a — 값을 '복사'해서 b에 저장",
+      "viz": {
+        "type": "memory",
+        "stack": [
+          { "name": "a", "value": "5" },
+          { "name": "b", "value": "5", "changed": true }
+        ],
+        "heap": []
+      }
+    },
+    {
+      "durationInFrames": 120,
+      "focus": [3],
+      "caption": "b = 9 — a는 그대로 5. 원시값은 독립된 복사본!",
+      "viz": {
+        "type": "memory",
+        "stack": [
+          { "name": "a", "value": "5" },
+          { "name": "b", "value": "9", "changed": true }
+        ],
+        "heap": []
+      }
+    },
+    {
+      "durationInFrames": 130,
+      "focus": [4],
+      "caption": "int[] o = {1} — 배열은 힙에 생성, o는 참조(주소)",
+      "viz": {
+        "type": "memory",
+        "stack": [
+          { "name": "a", "value": "5" },
+          { "name": "b", "value": "9" },
+          { "name": "o", "ref": "arr", "changed": true }
+        ],
+        "heap": [{ "id": "arr", "label": "int[]", "value": "[ 1 ]", "changed": true }]
+      }
+    },
+    {
+      "durationInFrames": 130,
+      "focus": [5],
+      "caption": "int[] p = o — 주소(참조)를 복사. 같은 배열을 가리킴",
+      "viz": {
+        "type": "memory",
+        "stack": [
+          { "name": "a", "value": "5" },
+          { "name": "b", "value": "9" },
+          { "name": "o", "ref": "arr" },
+          { "name": "p", "ref": "arr", "changed": true }
+        ],
+        "heap": [{ "id": "arr", "label": "int[]", "value": "[ 1 ]" }]
+      }
+    },
+    {
+      "durationInFrames": 160,
+      "focus": [6],
+      "caption": "p[0] = 99 — o[0]도 99로! 참조는 같은 객체를 공유",
+      "viz": {
+        "type": "memory",
+        "stack": [
+          { "name": "a", "value": "5" },
+          { "name": "b", "value": "9" },
+          { "name": "o", "ref": "arr" },
+          { "name": "p", "ref": "arr" }
+        ],
+        "heap": [{ "id": "arr", "label": "int[]", "value": "[ 99 ]", "changed": true }]
+      }
+    },
+    {
+      "durationInFrames": 140,
+      "focus": [6],
+      "caption": "정리 — 원시값=복사(독립), 참조=주소복사(공유)",
+      "viz": {
+        "type": "note",
+        "title": "핵심",
+        "lines": [
+          "int(원시값) → 값을 복사 → a·b 독립",
+          "배열·객체(참조) → 주소를 복사 → o·p 공유",
+          "공유된 객체 수정은 모두에게 반영 (aliasing)"
+        ]
+      }
+    }
+  ]
+}

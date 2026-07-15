@@ -1,0 +1,25 @@
+{
+  "name": "remotion-short",
+  "version": "1.0.0",
+  "description": "개발자 학습형 유튜브 쇼츠 자동 생성/업로드 파이프라인 (Remotion)",
+  "type": "module",
+  "scripts": {
+    "dev": "remotion studio",
+    "render": "node scripts/render.mjs",
+    "upload": "node scripts/upload.mjs",
+    "auth": "node scripts/auth.mjs",
+    "sync": "node scripts/sync.mjs"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/google-fonts": "^4.0.489",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "googleapis": "^144.0.0",
+    "typescript": "^5.4.0"
+  }
+}

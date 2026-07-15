@@ -1,0 +1,105 @@
+{
+  "composition": "CodeAnalysis",
+  "meta": {
+    "youtubeTitle": "재귀 함수는 내부에서 어떻게 실행될까? (콜스택 시각화) #shorts",
+    "youtubeDescription": "factorial(3)이 실행될 때 컴퓨터의 콜스택에서 벌어지는 일을 한 줄씩 시각화했습니다.\n\n재귀 = 스택에 쌓고(push), 종료조건에서 되돌아오며 계산(pop).\n\n#재귀 #recursion #콜스택 #개발자 #코딩 #cs #shorts",
+    "tags": ["재귀", "recursion", "콜스택", "자료구조", "개발자", "코딩", "shorts"]
+  },
+  "title": "재귀는 내부에서 어떻게 실행될까?",
+  "filename": "factorial.js",
+  "code": [
+    "function factorial(n) {",
+    "  if (n === 1) return 1;",
+    "  return n * factorial(n - 1);",
+    "}",
+    "",
+    "factorial(3);"
+  ],
+  "steps": [
+    {
+      "durationInFrames": 100,
+      "focus": [6],
+      "caption": "factorial(3) 호출 — 스택에 프레임이 쌓입니다",
+      "viz": { "type": "stack", "frames": [{ "label": "factorial(3)", "sub": "n = 3" }] }
+    },
+    {
+      "durationInFrames": 80,
+      "focus": [2],
+      "caption": "n = 3, 종료조건(n === 1)이 아님",
+      "viz": { "type": "stack", "frames": [{ "label": "factorial(3)", "sub": "n = 3" }] }
+    },
+    {
+      "durationInFrames": 95,
+      "focus": [3],
+      "caption": "factorial(2)를 다시 호출 → 스택에 쌓임",
+      "viz": {
+        "type": "stack",
+        "frames": [
+          { "label": "factorial(3)", "sub": "n = 3" },
+          { "label": "factorial(2)", "sub": "n = 2" }
+        ]
+      }
+    },
+    {
+      "durationInFrames": 95,
+      "focus": [3],
+      "caption": "factorial(1)까지 호출 — 스택 최대 깊이",
+      "viz": {
+        "type": "stack",
+        "frames": [
+          { "label": "factorial(3)", "sub": "n = 3" },
+          { "label": "factorial(2)", "sub": "n = 2" },
+          { "label": "factorial(1)", "sub": "n = 1" }
+        ]
+      }
+    },
+    {
+      "durationInFrames": 95,
+      "focus": [2],
+      "caption": "n === 1 → 1을 반환하고 스택에서 빠짐",
+      "viz": {
+        "type": "stack",
+        "frames": [
+          { "label": "factorial(3)", "sub": "n = 3" },
+          { "label": "factorial(2)", "sub": "n = 2" },
+          { "label": "factorial(1)", "returning": "1" }
+        ]
+      }
+    },
+    {
+      "durationInFrames": 90,
+      "focus": [3],
+      "caption": "factorial(2) = 2 × 1 = 2 반환",
+      "viz": {
+        "type": "stack",
+        "frames": [
+          { "label": "factorial(3)", "sub": "n = 3" },
+          { "label": "factorial(2)", "returning": "2" }
+        ]
+      }
+    },
+    {
+      "durationInFrames": 95,
+      "focus": [3],
+      "caption": "factorial(3) = 3 × 2 = 6 반환",
+      "viz": {
+        "type": "stack",
+        "frames": [{ "label": "factorial(3)", "returning": "6" }]
+      }
+    },
+    {
+      "durationInFrames": 130,
+      "focus": [6],
+      "caption": "최종 결과 6 — 스택이 비워집니다",
+      "viz": {
+        "type": "note",
+        "title": "정리",
+        "lines": [
+          "factorial(3) → 6",
+          "재귀 = 스택에 쌓고 (push)",
+          "종료조건에서 되돌아오며 계산 (pop)"
+        ]
+      }
+    }
+  ]
+}
