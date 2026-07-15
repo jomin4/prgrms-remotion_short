@@ -3,14 +3,33 @@
   "meta": {
     "youtubeTitle": "자바 HashMap은 어떻게 O(1)일까? (버킷·해싱·충돌 시각화) #shorts",
     "youtubeDescription": "자바 HashMap 내부 동작을 한 줄씩 시각화했습니다.\n\n- 버킷 배열 + 해싱으로 자리를 정함 (index = (n-1) & hash)\n- 같은 인덱스 충돌 시 연결리스트로 체이닝\n- Java 8+: 한 버킷 노드 8개↑ & 용량 64↑ → 레드블랙 트리\n\n#자바 #java #HashMap #자료구조 #해시 #개발자 #cs #shorts",
-    "tags": ["자바", "java", "HashMap", "자료구조", "해시", "버킷", "개발자", "shorts"]
+    "tags": [
+      "자바",
+      "java",
+      "HashMap",
+      "자료구조",
+      "해시",
+      "버킷",
+      "개발자",
+      "shorts"
+    ]
   },
   "title": "HashMap은\n어떻게 O(1)일까?",
   "filename": "HashMapDemo.java",
   "intro": {
     "durationInFrames": 120,
-    "badge": "JAVA · 자료구조",
-    "caption": "한 줄씩 실행하며 버킷 동작 따라가기"
+    "badge": "JAVA · 자료구조"
+  },
+  "narration": {
+    "intro": "안녕하세요! HashMap이 어떻게 O(1)인지 알아볼게요.",
+    "steps": [
+      "HashMap은 버킷 배열이에요. 해시 값으로 데이터가 들어갈 자리를 정합니다.",
+      "A를 넣으면, 해시로 인덱스 5를 계산해서 그 버킷에 저장해요.",
+      "B는 인덱스 2에 저장됩니다.",
+      "그런데 C도 인덱스가 5로 겹쳐요. 이렇게 충돌이 나면 연결 리스트로 이어 붙입니다.",
+      "조회할 땐 인덱스로 버킷을 찾고, 체인을 따라가며 A를 찾아요.",
+      "그래서 평균은 O(1)이고, 충돌이 심해지면 트리로 바꿔서 빠르게 유지합니다."
+    ]
   },
   "code": [
     "Map<String,Integer> map = new HashMap<>();",
@@ -22,50 +41,105 @@
   "steps": [
     {
       "durationInFrames": 150,
-      "focus": [1],
+      "focus": [
+        1
+      ],
       "caption": "HashMap = 버킷 배열. 해시로 자리를 정합니다",
-      "viz": { "type": "hashmap", "capacity": 8, "buckets": [] }
+      "viz": {
+        "type": "hashmap",
+        "capacity": 8,
+        "buckets": []
+      }
     },
     {
       "durationInFrames": 175,
-      "focus": [2],
+      "focus": [
+        2
+      ],
       "caption": "put(\"A\",1) — 해시로 인덱스 5 계산 후 저장",
       "viz": {
         "type": "hashmap",
         "capacity": 8,
         "compute": "hash(\"A\") & 7  →  5",
-        "buckets": [{ "index": 5, "entries": [{ "k": "A", "v": "1", "hot": true }] }]
+        "buckets": [
+          {
+            "index": 5,
+            "entries": [
+              {
+                "k": "A",
+                "v": "1",
+                "hot": true
+              }
+            ]
+          }
+        ]
       }
     },
     {
       "durationInFrames": 160,
-      "focus": [3],
+      "focus": [
+        3
+      ],
       "caption": "put(\"B\",2) — 인덱스 2에 저장",
       "viz": {
         "type": "hashmap",
         "capacity": 8,
         "compute": "hash(\"B\") & 7  →  2",
         "buckets": [
-          { "index": 2, "entries": [{ "k": "B", "v": "2", "hot": true }] },
-          { "index": 5, "entries": [{ "k": "A", "v": "1" }] }
+          {
+            "index": 2,
+            "entries": [
+              {
+                "k": "B",
+                "v": "2",
+                "hot": true
+              }
+            ]
+          },
+          {
+            "index": 5,
+            "entries": [
+              {
+                "k": "A",
+                "v": "1"
+              }
+            ]
+          }
         ]
       }
     },
     {
       "durationInFrames": 195,
-      "focus": [4],
+      "focus": [
+        4
+      ],
       "caption": "인덱스 5 또 나옴 → 충돌! 연결리스트로 체이닝",
       "viz": {
         "type": "hashmap",
         "capacity": 8,
         "compute": "hash(\"C\") & 7  →  5  (충돌!)",
         "buckets": [
-          { "index": 2, "entries": [{ "k": "B", "v": "2" }] },
+          {
+            "index": 2,
+            "entries": [
+              {
+                "k": "B",
+                "v": "2"
+              }
+            ]
+          },
           {
             "index": 5,
             "entries": [
-              { "k": "A", "v": "1" },
-              { "k": "C", "v": "3", "hot": true }
+              {
+                "k": "A",
+                "v": "1"
+              },
+              {
+                "k": "C",
+                "v": "3",
+                "hot": true
+              }
             ]
           }
         ]
@@ -73,19 +147,36 @@
     },
     {
       "durationInFrames": 185,
-      "focus": [5],
+      "focus": [
+        5
+      ],
       "caption": "get(\"A\") — 버킷 5로 가서 체인을 따라 탐색",
       "viz": {
         "type": "hashmap",
         "capacity": 8,
         "compute": "get(\"A\"):  버킷 5 탐색",
         "buckets": [
-          { "index": 2, "entries": [{ "k": "B", "v": "2" }] },
+          {
+            "index": 2,
+            "entries": [
+              {
+                "k": "B",
+                "v": "2"
+              }
+            ]
+          },
           {
             "index": 5,
             "entries": [
-              { "k": "A", "v": "1", "hot": true },
-              { "k": "C", "v": "3" }
+              {
+                "k": "A",
+                "v": "1",
+                "hot": true
+              },
+              {
+                "k": "C",
+                "v": "3"
+              }
             ]
           }
         ]
@@ -93,7 +184,9 @@
     },
     {
       "durationInFrames": 180,
-      "focus": [5],
+      "focus": [
+        5
+      ],
       "caption": "정리 — 평균 O(1), 충돌엔 체인·트리로 대비",
       "viz": {
         "type": "note",
@@ -105,5 +198,39 @@
         ]
       }
     }
-  ]
+  ],
+  "audio": {
+    "voice": "ko-KR-SunHiNeural",
+    "dir": "audio/hashmap",
+    "intro": {
+      "file": "seg-intro.mp3",
+      "durationInFrames": 194
+    },
+    "steps": [
+      {
+        "file": "seg-0.mp3",
+        "durationInFrames": 212
+      },
+      {
+        "file": "seg-1.mp3",
+        "durationInFrames": 176
+      },
+      {
+        "file": "seg-2.mp3",
+        "durationInFrames": 108
+      },
+      {
+        "file": "seg-3.mp3",
+        "durationInFrames": 241
+      },
+      {
+        "file": "seg-4.mp3",
+        "durationInFrames": 186
+      },
+      {
+        "file": "seg-5.mp3",
+        "durationInFrames": 219
+      }
+    ]
+  }
 }

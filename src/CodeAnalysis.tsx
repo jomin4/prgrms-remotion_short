@@ -1,29 +1,28 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Audio,
+  Sequence,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
   interpolate,
   Easing,
 } from "remotion";
 import type { CodeAnalysisContent } from "./typesAnalysis";
+import { introFrames, stepFrames } from "./typesAnalysis";
 import { theme, font } from "./theme";
 import { EditorWindow } from "./scenes/analysis/EditorWindow";
 import { Viz } from "./scenes/analysis/Viz";
 import { IntroCard } from "./scenes/analysis/IntroCard";
 import { Caption } from "./scenes/analysis/Caption";
 
-export const CodeAnalysis: React.FC<CodeAnalysisContent> = ({
-  title,
-  filename,
-  code,
-  intro,
-  steps,
-}) => {
+export const CodeAnalysis: React.FC<CodeAnalysisContent> = (content) => {
+  const { title, filename, code, intro, steps, audio } = content;
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const introDur = intro?.durationInFrames ?? 0;
+  const introDur = introFrames(content);
   const inIntro = frame < introDur;
   const af = frame - introDur; // 분석 구간 프레임 (인트로 이후)
 
@@ -41,19 +40,27 @@ export const CodeAnalysis: React.FC<CodeAnalysisContent> = ({
       })
     : 1;
 
-  // 현재 스텝과 스텝 내 로컬 프레임 계산 (분석 구간 기준)
+  // 현재 스텝과 스텝 내 로컬 프레임 계산 (분석 구간 기준, 오디오 길이 반영)
   let acc = 0;
   let idx = 0;
   for (let i = 0; i < steps.length; i++) {
-    if (af < acc + steps[i].durationInFrames) {
+    const d = stepFrames(content, i);
+    if (af < acc + d) {
       idx = i;
       break;
     }
-    acc += steps[i].durationInFrames;
+    acc += d;
     idx = i;
   }
   const step = steps[idx];
   const localFrame = af - acc;
+
+  // 오디오 세그먼트 오프셋
+  const stepOffset = (i: number) => {
+    let o = introDur;
+    for (let j = 0; j < i; j++) o += stepFrames(content, j);
+    return o;
+  };
 
   // 글라이딩 하이라이트: 이전 스텝 → 현재 스텝 focus 줄로 부드럽게 이동
   const prevLine = (steps[Math.max(0, idx - 1)].focus[0] ?? 1);
@@ -72,6 +79,24 @@ export const CodeAnalysis: React.FC<CodeAnalysisContent> = ({
         color: theme.ink,
       }}
     >
+      {/* 내레이션 오디오 */}
+      {audio && (
+        <>
+          {intro && (
+            <Sequence from={0} durationInFrames={introDur}>
+              <Audio src={staticFile(`${audio.dir}/${audio.intro.file}`)} />
+            </Sequence>
+          )}
+          {steps.map((_, i) =>
+            audio.steps[i] ? (
+              <Sequence key={i} from={stepOffset(i)} durationInFrames={stepFrames(content, i)}>
+                <Audio src={staticFile(`${audio.dir}/${audio.steps[i].file}`)} />
+              </Sequence>
+            ) : null
+          )}
+        </>
+      )}
+
       {/* 오프닝(훅) 화면 */}
       {intro && inIntro && (
         <IntroCard
