@@ -23,20 +23,20 @@
   "narration": {
     "intro": "안녕하세요! HashMap이 어떻게 O(1)인지 알아볼게요.",
     "steps": [
-      "HashMap은 버킷 배열이에요. 해시 값으로 데이터가 들어갈 자리를 정합니다.",
-      "A를 넣으면, 해시로 인덱스 5를 계산해서 그 버킷에 저장해요.",
-      "B는 인덱스 2에 저장됩니다.",
-      "그런데 C도 인덱스가 5로 겹쳐요. 이렇게 충돌이 나면 연결 리스트로 이어 붙입니다.",
-      "조회할 땐 인덱스로 버킷을 찾고, 체인을 따라가며 A를 찾아요.",
-      "그래서 평균은 O(1)이고, 충돌이 심해지면 트리로 바꿔서 빠르게 유지합니다."
+      "HashMap은 버킷 배열이에요. 키의 해시 값으로 저장할 자리를 정합니다.",
+      "키 5를 넣으면, 5와 7을 AND 연산해 인덱스 5에 저장해요.",
+      "키 2는 인덱스 2에 저장됩니다.",
+      "그런데 키 13도 7과 AND 하면 5가 나와요. 인덱스가 겹치면, 이렇게 연결 리스트로 이어 붙입니다.",
+      "조회할 땐 인덱스 5의 버킷을 찾고, 체인을 따라가며 키 5를 찾아요.",
+      "그래서 평균은 O(1)이고, 충돌이 심해지면 트리로 바꿔 빠르게 유지합니다."
     ]
   },
   "code": [
-    "Map<String,Integer> map = new HashMap<>();",
-    "map.put(\"A\", 1);",
-    "map.put(\"B\", 2);",
-    "map.put(\"C\", 3);",
-    "map.get(\"A\");"
+    "Map<Integer,String> map = new HashMap<>();",
+    "map.put(5, \"A\");",
+    "map.put(2, \"B\");",
+    "map.put(13, \"C\");",
+    "map.get(5);"
   ],
   "steps": [
     {
@@ -44,7 +44,7 @@
       "focus": [
         1
       ],
-      "caption": "HashMap = 버킷 배열. 해시로 자리를 정합니다",
+      "caption": "HashMap = 버킷 배열, 해시로 자리 결정",
       "viz": {
         "type": "hashmap",
         "capacity": 8,
@@ -56,18 +56,18 @@
       "focus": [
         2
       ],
-      "caption": "put(\"A\",1) — 해시로 인덱스 5 계산 후 저장",
+      "caption": "put(5, \"A\") → 인덱스 5에 저장",
       "viz": {
         "type": "hashmap",
         "capacity": 8,
-        "compute": "hash(\"A\") & 7  →  5",
+        "compute": "5 & 7  →  5",
         "buckets": [
           {
             "index": 5,
             "entries": [
               {
-                "k": "A",
-                "v": "1",
+                "k": "5",
+                "v": "\"A\"",
                 "hot": true
               }
             ]
@@ -80,18 +80,18 @@
       "focus": [
         3
       ],
-      "caption": "put(\"B\",2) — 인덱스 2에 저장",
+      "caption": "put(2, \"B\") → 인덱스 2에 저장",
       "viz": {
         "type": "hashmap",
         "capacity": 8,
-        "compute": "hash(\"B\") & 7  →  2",
+        "compute": "2 & 7  →  2",
         "buckets": [
           {
             "index": 2,
             "entries": [
               {
-                "k": "B",
-                "v": "2",
+                "k": "2",
+                "v": "\"B\"",
                 "hot": true
               }
             ]
@@ -100,8 +100,8 @@
             "index": 5,
             "entries": [
               {
-                "k": "A",
-                "v": "1"
+                "k": "5",
+                "v": "\"A\""
               }
             ]
           }
@@ -113,18 +113,18 @@
       "focus": [
         4
       ],
-      "caption": "인덱스 5 또 나옴 → 충돌! 연결리스트로 체이닝",
+      "caption": "put(13, \"C\") → 13 & 7 = 5, 충돌! 체이닝",
       "viz": {
         "type": "hashmap",
         "capacity": 8,
-        "compute": "hash(\"C\") & 7  →  5  (충돌!)",
+        "compute": "13 & 7  →  5  (충돌!)",
         "buckets": [
           {
             "index": 2,
             "entries": [
               {
-                "k": "B",
-                "v": "2"
+                "k": "2",
+                "v": "\"B\""
               }
             ]
           },
@@ -132,12 +132,12 @@
             "index": 5,
             "entries": [
               {
-                "k": "A",
-                "v": "1"
+                "k": "5",
+                "v": "\"A\""
               },
               {
-                "k": "C",
-                "v": "3",
+                "k": "13",
+                "v": "\"C\"",
                 "hot": true
               }
             ]
@@ -150,18 +150,18 @@
       "focus": [
         5
       ],
-      "caption": "get(\"A\") — 버킷 5로 가서 체인을 따라 탐색",
+      "caption": "get(5) → 버킷 5에서 체인 탐색",
       "viz": {
         "type": "hashmap",
         "capacity": 8,
-        "compute": "get(\"A\"):  버킷 5 탐색",
+        "compute": "get(5):  버킷 5 탐색",
         "buckets": [
           {
             "index": 2,
             "entries": [
               {
-                "k": "B",
-                "v": "2"
+                "k": "2",
+                "v": "\"B\""
               }
             ]
           },
@@ -169,13 +169,13 @@
             "index": 5,
             "entries": [
               {
-                "k": "A",
-                "v": "1",
+                "k": "5",
+                "v": "\"A\"",
                 "hot": true
               },
               {
-                "k": "C",
-                "v": "3"
+                "k": "13",
+                "v": "\"C\""
               }
             ]
           }
@@ -209,27 +209,27 @@
     "steps": [
       {
         "file": "seg-0.mp3",
-        "durationInFrames": 212
+        "durationInFrames": 210
       },
       {
         "file": "seg-1.mp3",
-        "durationInFrames": 176
+        "durationInFrames": 169
       },
       {
         "file": "seg-2.mp3",
-        "durationInFrames": 108
+        "durationInFrames": 110
       },
       {
         "file": "seg-3.mp3",
-        "durationInFrames": 241
+        "durationInFrames": 277
       },
       {
         "file": "seg-4.mp3",
-        "durationInFrames": 186
+        "durationInFrames": 195
       },
       {
         "file": "seg-5.mp3",
-        "durationInFrames": 219
+        "durationInFrames": 217
       }
     ]
   }

@@ -33,8 +33,8 @@ const EntryNode: React.FC<{ e: Entry }> = ({ e }) => (
       whiteSpace: "nowrap",
     }}
   >
-    <span style={{ color: theme.code.string }}>"{e.k}"</span>
-    <span style={{ color: theme.muted, margin: "0 4px" }}>=</span>
+    <span style={{ color: theme.code.number }}>{e.k}</span>
+    <span style={{ color: theme.muted, margin: "0 6px" }}>=</span>
     <span style={{ color: theme.viz.value }}>{e.v}</span>
   </div>
 );
