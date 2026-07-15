@@ -2,12 +2,16 @@ import React from "react";
 import { Composition } from "remotion";
 import { Short, totalDuration } from "./Short";
 import { CodeAnalysis } from "./CodeAnalysis";
+import { Concept } from "./Concept";
 import { analysisDuration } from "./typesAnalysis";
+import { conceptDuration } from "./typesConcept";
 import { VIDEO } from "./theme";
 import type { ShortContent } from "./types";
 import type { CodeAnalysisContent } from "./typesAnalysis";
+import type { ConceptContent } from "./typesConcept";
 import explainerDefault from "../content/explainer/git-reset.json";
 import codeDefault from "../content/code/recursion.json";
+import conceptDefault from "../content/concept/tcp-handshake.json";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -35,6 +39,19 @@ export const RemotionRoot: React.FC = () => {
         height={VIDEO.height}
         calculateMetadata={({ props }) => ({
           durationInFrames: analysisDuration(props),
+        })}
+      />
+
+      {/* 템플릿 B — 개념 설명 (시각화 우선) */}
+      <Composition
+        id="Concept"
+        component={Concept}
+        defaultProps={conceptDefault as ConceptContent}
+        fps={VIDEO.fps}
+        width={VIDEO.width}
+        height={VIDEO.height}
+        calculateMetadata={({ props }) => ({
+          durationInFrames: conceptDuration(props),
         })}
       />
     </>

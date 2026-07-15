@@ -1,0 +1,75 @@
+{
+  "composition": "Concept",
+  "meta": {
+    "youtubeTitle": "TCP는 어떻게 연결될까? 3-way handshake 시각화 #shorts",
+    "youtubeDescription": "TCP 연결이 맺어지는 3-way handshake 과정을 시퀀스 다이어그램으로 시각화했습니다.\n\nSYN → SYN-ACK → ACK. 양쪽이 각자 시퀀스 번호를 동기화해야 해서 3번 주고받습니다.\n\n#TCP #네트워크 #handshake #CS #개발자 #shorts",
+    "tags": ["TCP", "네트워크", "handshake", "CS", "백엔드", "개발자", "shorts"]
+  },
+  "title": "TCP는 어떻게 연결될까?",
+  "intro": {
+    "durationInFrames": 120,
+    "badge": "NETWORK · TCP",
+    "caption": "3번의 인사로 연결을 맺습니다"
+  },
+  "steps": [
+    {
+      "durationInFrames": 175,
+      "caption": "① SYN — 클라이언트가 연결을 요청",
+      "viz": {
+        "type": "sequence",
+        "slots": 3,
+        "actors": { "a": { "label": "클라이언트", "sub": "Client" }, "b": { "label": "서버", "sub": "Server" } },
+        "stateA": "SYN_SENT",
+        "stateB": "LISTEN",
+        "messages": [{ "from": "a", "label": "SYN", "note": "seq = x", "hot": true }]
+      }
+    },
+    {
+      "durationInFrames": 185,
+      "caption": "② SYN-ACK — 서버가 수락 + 자기 순서번호 동기화",
+      "viz": {
+        "type": "sequence",
+        "slots": 3,
+        "actors": { "a": { "label": "클라이언트", "sub": "Client" }, "b": { "label": "서버", "sub": "Server" } },
+        "stateA": "SYN_SENT",
+        "stateB": "SYN_RCVD",
+        "messages": [
+          { "from": "a", "label": "SYN", "note": "seq = x" },
+          { "from": "b", "label": "SYN-ACK", "note": "seq = y, ack = x+1", "hot": true }
+        ]
+      }
+    },
+    {
+      "durationInFrames": 185,
+      "caption": "③ ACK — 클라이언트가 확인 → 연결 성립!",
+      "viz": {
+        "type": "sequence",
+        "slots": 3,
+        "actors": { "a": { "label": "클라이언트", "sub": "Client" }, "b": { "label": "서버", "sub": "Server" } },
+        "stateA": "ESTABLISHED",
+        "stateB": "ESTABLISHED",
+        "messages": [
+          { "from": "a", "label": "SYN", "note": "seq = x" },
+          { "from": "b", "label": "SYN-ACK", "note": "seq = y, ack = x+1" },
+          { "from": "a", "label": "ACK", "note": "ack = y+1", "hot": true }
+        ]
+      }
+    },
+    {
+      "durationInFrames": 160,
+      "caption": "양쪽이 서로의 순서번호를 맞춰야 해서 3번!",
+      "viz": {
+        "type": "sequence",
+        "slots": 3,
+        "actors": { "a": { "label": "클라이언트", "sub": "Client" }, "b": { "label": "서버", "sub": "Server" } },
+        "stateA": "ESTABLISHED",
+        "stateB": "ESTABLISHED",
+        "messages": [
+          { "from": "a", "label": "SYN", "note": "seq = x" },
+          { "from": "b", "label": "SYN-ACK", "note": "seq = y, ack = x+1" },
+          { "from": "a", "label": "ACK", "note": "ack = y+1" }
+        ]
+      }
+    }
+  ]
+}
