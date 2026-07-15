@@ -31,6 +31,10 @@ export type ConceptContent = {
   meta: { youtubeTitle: string; youtubeDescription: string; tags: string[] };
   title: string; // 상단 작은 라벨 + 인트로 훅 제목
   intro?: { durationInFrames: number; badge?: string; caption?: string };
+  // 내레이션 스크립트 (보이스오버/TTS용). 주제 이름에 맞춰 작성.
+  // intro는 인사말로 시작 (예: "안녕하세요! 오늘은 ~ 알아볼게요").
+  // steps[i]는 steps[i] 화면과 1:1 대응.
+  narration?: { intro: string; steps?: string[] };
   steps: ConceptStep[];
 };
 

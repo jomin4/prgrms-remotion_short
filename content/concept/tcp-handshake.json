@@ -8,8 +8,16 @@
   "title": "TCP는 어떻게 연결될까?",
   "intro": {
     "durationInFrames": 120,
-    "badge": "NETWORK · TCP",
-    "caption": "3번의 인사로 연결을 맺습니다"
+    "badge": "NETWORK · TCP"
+  },
+  "narration": {
+    "intro": "안녕하세요! 오늘은 TCP가 어떻게 연결되는지, 3-way handshake를 함께 알아볼게요.",
+    "steps": [
+      "먼저 클라이언트가 서버에 SYN을 보내며 연결을 요청해요.",
+      "서버는 SYN-ACK로 요청을 받아들이면서, 자기 순서번호도 함께 알려줍니다.",
+      "마지막으로 클라이언트가 ACK를 보내면, 양쪽 모두 연결이 성립돼요.",
+      "세 번씩 주고받는 이유는, 양쪽이 서로의 순서번호를 맞춰야 하기 때문이에요."
+    ]
   },
   "steps": [
     {
