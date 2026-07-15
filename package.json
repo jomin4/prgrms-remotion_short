@@ -8,7 +8,8 @@
     "render": "node scripts/render.mjs",
     "upload": "node scripts/upload.mjs",
     "auth": "node scripts/auth.mjs",
-    "sync": "node scripts/sync.mjs"
+    "sync": "node scripts/sync.mjs",
+    "tts": "node scripts/tts.mjs"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.0",

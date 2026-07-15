@@ -34,10 +34,24 @@ npm run dev        # Remotion Studio 열기 (브라우저에서 실시간 미리
 
 ```bash
 npm run render content/code/recursion.json       # 템플릿 A 예시
-npm run render content/explainer/jwt.json         # 템플릿 B 예시
+npm run render content/concept/tcp-handshake.json # 템플릿 B 예시
 ```
 
 결과물: `out/<이름>.mp4` (1080×1920, 30fps)
+
+## 2.5 보이스오버 (TTS, 템플릿 B)
+
+`narration` 스크립트가 있는 콘텐츠는 렌더 전에 음성을 합성해 자동 동기화합니다.
+
+```bash
+npm run tts content/concept/tcp-handshake.json    # edge-tts로 세그먼트별 음성 생성
+npm run render content/concept/tcp-handshake.json # 음성이 포함된 mp4
+```
+
+- 요구 사항: `python`, `pip install edge-tts`, `ffmpeg`/`ffprobe`
+- `narration.intro`(인사말) + `narration.steps[]`(스텝별 대사)를 각각 합성 → `public/audio/<이름>/seg-*.mp3`
+- 각 세그먼트 음성 길이에 맞춰 화면 길이가 자동 설정됨(음성·화면·자막 동기화). 결과는 `audio` 블록으로 콘텐츠에 기록됨
+- 기본 음성: `ko-KR-SunHiNeural` (변경: `npm run tts <파일> ko-KR-InJoonNeural`)
 
 ## 3. 새 영상 만들기
 

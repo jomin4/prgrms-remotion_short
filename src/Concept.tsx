@@ -1,6 +1,15 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate } from "remotion";
+import {
+  AbsoluteFill,
+  Audio,
+  Sequence,
+  staticFile,
+  useCurrentFrame,
+  useVideoConfig,
+  interpolate,
+} from "remotion";
 import type { ConceptContent, ConceptViz } from "./typesConcept";
+import { introFrames, stepFrames } from "./typesConcept";
 import { theme, font } from "./theme";
 import { IntroCard } from "./scenes/analysis/IntroCard";
 import { Caption } from "./scenes/analysis/Caption";
@@ -13,12 +22,13 @@ const renderViz = (viz: ConceptViz, localFrame: number, fps: number) => {
   }
 };
 
-// 템플릿 B: 화면은 시각화 위주, 상단 작은 라벨 + 하단 자막으로만 텍스트.
-export const Concept: React.FC<ConceptContent> = ({ title, intro, steps }) => {
+// 템플릿 B: 화면은 시각화 위주, 상단 작은 라벨 + 하단 자막. 타이밍은 TTS 오디오 길이 기준.
+export const Concept: React.FC<ConceptContent> = (content) => {
+  const { title, intro, steps, audio } = content;
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const introDur = intro?.durationInFrames ?? 0;
+  const introDur = introFrames(content);
   const inIntro = frame < introDur;
   const af = frame - introDur;
 
@@ -33,21 +43,48 @@ export const Concept: React.FC<ConceptContent> = ({ title, intro, steps }) => {
       })
     : 1;
 
+  // 현재 스텝 (오디오 길이 반영)
   let acc = 0;
   let idx = 0;
   for (let i = 0; i < steps.length; i++) {
-    if (af < acc + steps[i].durationInFrames) {
+    const d = stepFrames(content, i);
+    if (af < acc + d) {
       idx = i;
       break;
     }
-    acc += steps[i].durationInFrames;
+    acc += d;
     idx = i;
   }
   const step = steps[idx];
   const localFrame = af - acc;
 
+  // 오디오 세그먼트 오프셋
+  const stepOffset = (i: number) => {
+    let o = introDur;
+    for (let j = 0; j < i; j++) o += stepFrames(content, j);
+    return o;
+  };
+
   return (
     <AbsoluteFill style={{ background: theme.paper, fontFamily: font.sans, color: theme.ink }}>
+      {/* 내레이션 오디오 */}
+      {audio && (
+        <>
+          {intro && (
+            <Sequence from={0} durationInFrames={introDur}>
+              <Audio src={staticFile(`${audio.dir}/${audio.intro.file}`)} />
+            </Sequence>
+          )}
+          {steps.map((_, i) =>
+            audio.steps[i] ? (
+              <Sequence key={i} from={stepOffset(i)} durationInFrames={stepFrames(content, i)}>
+                <Audio src={staticFile(`${audio.dir}/${audio.steps[i].file}`)} />
+              </Sequence>
+            ) : null
+          )}
+        </>
+      )}
+
       {intro && inIntro && (
         <IntroCard title={title} badge={intro.badge} opacity={introOpacity} />
       )}
@@ -63,20 +100,16 @@ export const Concept: React.FC<ConceptContent> = ({ title, intro, steps }) => {
             opacity: mainOpacity,
           }}
         >
-          {/* 상단 작은 라벨 (무슨 시각화인지 구별용) */}
           <div style={{ display: "flex", alignItems: "center", gap: 18, marginBottom: 10 }}>
             <span style={{ width: 12, height: 40, background: theme.clay, borderRadius: 6 }} />
             <span style={{ fontFamily: font.serif, fontSize: 50, fontWeight: 600 }}>{title}</span>
           </div>
-
-          {/* 시각화 (화면 대부분) */}
           <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
             {renderViz(step.viz, localFrame, fps)}
           </div>
         </div>
       )}
 
-      {/* 하단 자막 */}
       {inIntro
         ? intro?.caption && <Caption text={intro.caption} opacity={introOpacity} />
         : <Caption text={step.caption} opacity={mainOpacity} />}

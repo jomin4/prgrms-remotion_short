@@ -3,7 +3,15 @@
   "meta": {
     "youtubeTitle": "TCP는 어떻게 연결될까? 3-way handshake 시각화 #shorts",
     "youtubeDescription": "TCP 연결이 맺어지는 3-way handshake 과정을 시퀀스 다이어그램으로 시각화했습니다.\n\nSYN → SYN-ACK → ACK. 양쪽이 각자 시퀀스 번호를 동기화해야 해서 3번 주고받습니다.\n\n#TCP #네트워크 #handshake #CS #개발자 #shorts",
-    "tags": ["TCP", "네트워크", "handshake", "CS", "백엔드", "개발자", "shorts"]
+    "tags": [
+      "TCP",
+      "네트워크",
+      "handshake",
+      "CS",
+      "백엔드",
+      "개발자",
+      "shorts"
+    ]
   },
   "title": "TCP는 어떻게 연결될까?",
   "intro": {
@@ -11,7 +19,7 @@
     "badge": "NETWORK · TCP"
   },
   "narration": {
-    "intro": "안녕하세요! 오늘은 TCP가 어떻게 연결되는지, 3-way handshake를 함께 알아볼게요.",
+    "intro": "안녕하세요! TCP는 어떻게 연결되는지 알아볼게요.",
     "steps": [
       "먼저 클라이언트가 서버에 SYN을 보내며 연결을 요청해요.",
       "서버는 SYN-ACK로 요청을 받아들이면서, 자기 순서번호도 함께 알려줍니다.",
@@ -26,10 +34,26 @@
       "viz": {
         "type": "sequence",
         "slots": 3,
-        "actors": { "a": { "label": "클라이언트", "sub": "Client" }, "b": { "label": "서버", "sub": "Server" } },
+        "actors": {
+          "a": {
+            "label": "클라이언트",
+            "sub": "Client"
+          },
+          "b": {
+            "label": "서버",
+            "sub": "Server"
+          }
+        },
         "stateA": "SYN_SENT",
         "stateB": "LISTEN",
-        "messages": [{ "from": "a", "label": "SYN", "note": "seq = x", "hot": true }]
+        "messages": [
+          {
+            "from": "a",
+            "label": "SYN",
+            "note": "seq = x",
+            "hot": true
+          }
+        ]
       }
     },
     {
@@ -38,12 +62,30 @@
       "viz": {
         "type": "sequence",
         "slots": 3,
-        "actors": { "a": { "label": "클라이언트", "sub": "Client" }, "b": { "label": "서버", "sub": "Server" } },
+        "actors": {
+          "a": {
+            "label": "클라이언트",
+            "sub": "Client"
+          },
+          "b": {
+            "label": "서버",
+            "sub": "Server"
+          }
+        },
         "stateA": "SYN_SENT",
         "stateB": "SYN_RCVD",
         "messages": [
-          { "from": "a", "label": "SYN", "note": "seq = x" },
-          { "from": "b", "label": "SYN-ACK", "note": "seq = y, ack = x+1", "hot": true }
+          {
+            "from": "a",
+            "label": "SYN",
+            "note": "seq = x"
+          },
+          {
+            "from": "b",
+            "label": "SYN-ACK",
+            "note": "seq = y, ack = x+1",
+            "hot": true
+          }
         ]
       }
     },
@@ -53,13 +95,35 @@
       "viz": {
         "type": "sequence",
         "slots": 3,
-        "actors": { "a": { "label": "클라이언트", "sub": "Client" }, "b": { "label": "서버", "sub": "Server" } },
+        "actors": {
+          "a": {
+            "label": "클라이언트",
+            "sub": "Client"
+          },
+          "b": {
+            "label": "서버",
+            "sub": "Server"
+          }
+        },
         "stateA": "ESTABLISHED",
         "stateB": "ESTABLISHED",
         "messages": [
-          { "from": "a", "label": "SYN", "note": "seq = x" },
-          { "from": "b", "label": "SYN-ACK", "note": "seq = y, ack = x+1" },
-          { "from": "a", "label": "ACK", "note": "ack = y+1", "hot": true }
+          {
+            "from": "a",
+            "label": "SYN",
+            "note": "seq = x"
+          },
+          {
+            "from": "b",
+            "label": "SYN-ACK",
+            "note": "seq = y, ack = x+1"
+          },
+          {
+            "from": "a",
+            "label": "ACK",
+            "note": "ack = y+1",
+            "hot": true
+          }
         ]
       }
     },
@@ -69,15 +133,62 @@
       "viz": {
         "type": "sequence",
         "slots": 3,
-        "actors": { "a": { "label": "클라이언트", "sub": "Client" }, "b": { "label": "서버", "sub": "Server" } },
+        "actors": {
+          "a": {
+            "label": "클라이언트",
+            "sub": "Client"
+          },
+          "b": {
+            "label": "서버",
+            "sub": "Server"
+          }
+        },
         "stateA": "ESTABLISHED",
         "stateB": "ESTABLISHED",
         "messages": [
-          { "from": "a", "label": "SYN", "note": "seq = x" },
-          { "from": "b", "label": "SYN-ACK", "note": "seq = y, ack = x+1" },
-          { "from": "a", "label": "ACK", "note": "ack = y+1" }
+          {
+            "from": "a",
+            "label": "SYN",
+            "note": "seq = x"
+          },
+          {
+            "from": "b",
+            "label": "SYN-ACK",
+            "note": "seq = y, ack = x+1"
+          },
+          {
+            "from": "a",
+            "label": "ACK",
+            "note": "ack = y+1"
+          }
         ]
       }
     }
-  ]
+  ],
+  "audio": {
+    "voice": "ko-KR-SunHiNeural",
+    "dir": "audio/tcp-handshake",
+    "intro": {
+      "file": "seg-intro.mp3",
+      "durationInFrames": 181
+    },
+    "steps": [
+      {
+        "file": "seg-0.mp3",
+        "durationInFrames": 170
+      },
+      {
+        "file": "seg-1.mp3",
+        "durationInFrames": 214
+      },
+      {
+        "file": "seg-2.mp3",
+        "durationInFrames": 194
+      },
+      {
+        "file": "seg-3.mp3",
+        "durationInFrames": 192
+      }
+    ]
+  }
 }

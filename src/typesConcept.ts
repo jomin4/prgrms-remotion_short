@@ -35,9 +35,22 @@ export type ConceptContent = {
   // intro는 인사말로 시작 (예: "안녕하세요! 오늘은 ~ 알아볼게요").
   // steps[i]는 steps[i] 화면과 1:1 대응.
   narration?: { intro: string; steps?: string[] };
+  // scripts/tts.mjs 가 채우는 TTS 오디오 정보. 있으면 세그먼트 음성 길이로 타이밍을 덮어씀.
+  audio?: {
+    voice: string;
+    dir: string; // public/ 기준 (예: "audio/tcp-handshake")
+    intro: { file: string; durationInFrames: number };
+    steps: { file: string; durationInFrames: number }[];
+  };
   steps: ConceptStep[];
 };
 
+// 오디오가 있으면 음성 길이 기준, 없으면 작성한 durationInFrames 기준.
+export const introFrames = (c: ConceptContent) =>
+  c.audio?.intro.durationInFrames ?? c.intro?.durationInFrames ?? 0;
+
+export const stepFrames = (c: ConceptContent, i: number) =>
+  c.audio?.steps[i]?.durationInFrames ?? c.steps[i].durationInFrames;
+
 export const conceptDuration = (c: ConceptContent) =>
-  (c.intro?.durationInFrames ?? 0) +
-  c.steps.reduce((s, st) => s + st.durationInFrames, 0);
+  introFrames(c) + c.steps.reduce((s, _st, i) => s + stepFrames(c, i), 0);
